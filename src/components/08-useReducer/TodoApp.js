@@ -20,6 +20,14 @@ export const TodoApp = () => {
 		localStorage.setItem("todos", JSON.stringify(todos));
 	}, [todos]);
 
+	const handleToggle = (index) => {
+		const action = {
+			type: "TOGGLE",
+			payload: index,
+		};
+		dispatch(action);
+	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (description.trim() === "") return;
@@ -64,7 +72,9 @@ export const TodoApp = () => {
 				<ul className='list-group list-group-flush'>
 					{todos.map((todo, index) => (
 						<li key={todo.id} className='list-group-item'>
-							<p className='text-center'>
+							<p
+								className={`${todo.done && "completed"}`}
+								onClick={() => handleToggle(index)}>
 								{index + 1}. {todo.desc}
 							</p>
 							<button
